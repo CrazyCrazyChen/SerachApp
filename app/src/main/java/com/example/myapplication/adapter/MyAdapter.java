@@ -23,6 +23,12 @@ public class MyAdapter extends BaseAdapter {
     List<AppInfo> list;
     LayoutInflater inflater;
 
+    public void setUninstall(IUninstall uninstall) {
+        this.uninstall = uninstall;
+    }
+
+    IUninstall uninstall;
+
 
     public MyAdapter(Context context) {
         this.inflater = LayoutInflater.from(context);
@@ -34,7 +40,7 @@ public class MyAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return list.size();
+        return (list == null)?0:list.size();
     }
 
     @Override
@@ -69,6 +75,20 @@ public class MyAdapter extends BaseAdapter {
         holder.title.setText(app.appName);
         holder.version.setText(app.versionName);
         holder.size.setText(app.size+"M");
+
+
+        final  int pos = position;
+        final  String packageName = app.packageName;
+
+        holder.btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                uninstall.btnOnClick(pos,packageName);
+
+
+            }
+        });
 
         
         return convertView;
