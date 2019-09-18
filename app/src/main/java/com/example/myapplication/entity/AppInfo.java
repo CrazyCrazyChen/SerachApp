@@ -2,6 +2,8 @@ package com.example.myapplication.entity;
 
 import android.graphics.drawable.Drawable;
 
+import com.example.myapplication.util.Utils;
+
 public class AppInfo {
 
 
@@ -22,7 +24,7 @@ public class AppInfo {
                 "packageName='" + packageName + '\'' +
                 ", versionName='" + versionName + '\'' +
                 ", versionCode=" + versionCode +
-                ", insTime=" + insTime +
+                ", insTime=" + insTime +"安装日期："+ Utils.getTime(insTime) +
                 ", upTime=" + upTime +
                 ", appName='" + appName + '\'' +
                 ", icon=" + icon +
