@@ -7,21 +7,20 @@
 
 
         <item
-            android:id="@+id/action_settings"
-            android:orderInCategory="0"
-            android:title="@string/action_settings"
-            app:showAsAction="ifRoom" />
-
-
-    <!--android:icon="@drawable/iconfont_setting"-->
-
-
-    <!--android:icon="@drawable/iconfont_add"-->
+            android:id="@+id/sort_name"
+            android:orderInCategory="1"
+            android:title="名称"
+            app:showAsAction="never" />
 
         <item
-            android:id="@+id/action_add"
-            android:orderInCategory="1"
-            android:title="@string/action_add"
-            app:showAsAction="ifRoom" />
+            android:id="@+id/sort_date"
+            android:orderInCategory="2"
+            android:title="日期"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/sort_size"
+            android:orderInCategory="3"
+            android:title="大小"
+            app:showAsAction="never" />
 
 </menu>

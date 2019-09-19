@@ -73,8 +73,8 @@ public class MyAdapter extends BaseAdapter {
         AppInfo app = list.get(position);
         holder.logo.setImageDrawable(app.icon);
         holder.title.setText(app.appName);
-        holder.version.setText(app.versionName);
-        holder.size.setText(app.size+"M");
+        holder.version.setText("版本:"+app.versionName);
+        holder.size.setText("大小:"+app.size+"M");
 
 
         final  int pos = position;

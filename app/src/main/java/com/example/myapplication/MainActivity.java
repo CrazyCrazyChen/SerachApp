@@ -20,6 +20,9 @@ import com.example.myapplication.adapter.MyAdapter;
 import com.example.myapplication.entity.AppInfo;
 import com.example.myapplication.util.Utils;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, IUninstall {
@@ -27,9 +30,69 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static final String TAG = "MainActivity" ;
 
 
+
+
     ListView lv;
     List<AppInfo> list;
     MyAdapter adapter;
+
+
+    public static final int SORT_NAME = 0;
+    public static final int SORT_DATE = 1;
+    public static final int SORT_SIZE = 2;
+
+    int currSort = SORT_NAME;
+    Comparator<AppInfo> currComparator = null;
+
+
+
+
+    Comparator<AppInfo> dateComparator = new Comparator<AppInfo>() {
+        @Override
+        public int compare(AppInfo o1, AppInfo o2) {
+
+            if(o1.upTime > o2.upTime){
+                return 1;
+            }
+            if(o1.upTime == o2.upTime){
+                return 0;
+            }
+            else {
+                return -1;
+            }
+        }
+    };
+
+
+
+    Comparator<AppInfo> sizeComparator = new Comparator<AppInfo>() {
+        @Override
+        public int compare(AppInfo o1, AppInfo o2) {
+
+            if(o1.byteSize > o2.byteSize){
+                return -1;
+            }
+            if(o1.byteSize == o2.byteSize){
+                return 0;
+            }
+            else {
+                return 1;
+            }
+        }
+    };
+
+
+    Comparator<AppInfo> nameComparator = new Comparator<AppInfo>() {
+        @Override
+        public int compare(AppInfo o1, AppInfo o2) {
+
+           return o1.appName.toLowerCase().compareTo(o2.appName.toLowerCase());
+
+
+        }
+    };
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +140,53 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         int id = item.getItemId();
 
-        if (id == R.id.action_settings){
+        if (id == R.id.sort_name){
+
+            currSort = SORT_NAME;
+
+            updateDate_sort(currSort);
+            return true;
+
+        }
+
+        if (id == R.id.sort_date){
+            currSort = SORT_DATE;
+
+            updateDate_sort(currSort);
+            return true;
+
+        }
+
+
+        if (id == R.id.sort_size){
+
+            currSort = SORT_SIZE;
+
+            updateDate_sort(currSort);
             return true;
 
         }
         return super.onOptionsItemSelected(item);
     }
 
+
+
+    public void updateDate_sort(int sort){
+
+        if(sort == SORT_NAME){
+            currComparator = nameComparator;
+        }
+        if(sort == SORT_DATE){
+            currComparator = dateComparator;
+        }
+        if(sort == SORT_SIZE){
+            currComparator = sizeComparator;
+        }
+        Collections.sort(list,currComparator);
+        adapter.setList(list);
+        adapter.notifyDataSetChanged();
+
+    }
 
     ProgressDialog pd;
 
@@ -104,8 +207,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         @Override
         public void handleMessage(Message msg){
 
-            adapter.setList(list);
-            adapter.notifyDataSetChanged();
+            updateDate_sort(currSort);
+//            adapter.setList(list);
+//            adapter.notifyDataSetChanged();
 
             Log.d(TAG, "onCreate: "+list.toString());
 
