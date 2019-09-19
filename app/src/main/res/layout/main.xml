@@ -6,13 +6,45 @@
     android:layout_height="match_parent"
    >
 
+<LinearLayout
+    android:id="@+id/top"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    >
+    <TextView
+        android:id="@+id/tv_sort"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="排序："
 
+
+        />
+    <TextView
+        android:id="@+id/tv_size"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="应用："
+
+
+        />
+
+
+
+
+
+
+</LinearLayout>
     <!--listview的标签-->
     <ListView
         android:id="@+id/lv_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:listSelector="@drawable/item_selector"
+        android:layout_below="@id/top"
 
         />
 

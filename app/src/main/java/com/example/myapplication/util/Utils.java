@@ -120,6 +120,24 @@ public class Utils {
 
     }
 
+    public static List<AppInfo> getSearchResult(List<AppInfo> list,String key){
+
+
+
+        List<AppInfo> result = new ArrayList<>();
+
+
+        for(int i= 0; i<list.size();i++){
+            AppInfo app = list.get(i);
+            if(app.appName.toLowerCase().contains(key.toLowerCase())){
+                result.add(app);
+
+            }
+
+        }
+        return  result;
+    }
+
 
 
 }

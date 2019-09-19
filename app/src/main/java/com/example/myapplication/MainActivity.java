@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.example.myapplication.adapter.IUninstall;
 import com.example.myapplication.adapter.MyAdapter;
@@ -25,12 +27,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, IUninstall {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, IUninstall, SearchView.OnQueryTextListener {
 
     private static final String TAG = "MainActivity" ;
 
 
 
+    public static final String[] arr_sort = {"名称","日期","大小"};
 
     ListView lv;
     List<AppInfo> list;
@@ -43,6 +46,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     int currSort = SORT_NAME;
     Comparator<AppInfo> currComparator = null;
+
+
+    TextView tv_sort;
+    TextView tv_size;
 
 
 
@@ -100,6 +107,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.main);
 
 
+        tv_size = findViewById(R.id.tv_size);
+        tv_sort = findViewById(R.id.tv_sort);
+
 
 
         lv = findViewById(R.id.lv_main);
@@ -127,10 +137,39 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    SearchView sv;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu_main,menu);
+
+        MenuItem search = menu.findItem(R.id.search);
+
+
+        search.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                updateData();
+                return true;
+            }
+        });
+
+        sv = (SearchView) search.getActionView();
+
+        sv.setSubmitButtonEnabled(true);
+        sv.setQueryHint("应用名称");
+        sv.setOnQueryTextListener(this);
+
+
+
+
+
+
         return true;
     }
 
@@ -139,6 +178,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
         int id = item.getItemId();
+
+
+        if (id == R.id.refresh){
+            updateData();
+            return true;
+
+        }
 
         if (id == R.id.sort_name){
 
@@ -173,6 +219,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void updateDate_sort(int sort){
 
+
+
         if(sort == SORT_NAME){
             currComparator = nameComparator;
         }
@@ -185,6 +233,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Collections.sort(list,currComparator);
         adapter.setList(list);
         adapter.notifyDataSetChanged();
+
+        update_top();
 
     }
 
@@ -277,5 +327,33 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+
+
+        Log.d(TAG, "onQueryTextSubmit: "+query);
+        list = Utils.getSearchResult(list,query);
+        updateDate_sort(currSort);
+
+
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+
+
+        return true;
+    }
+
+
+    public void update_top(){
+        tv_sort.setText("排序："+arr_sort[currSort]);
+
+        tv_size.setText("应用："+list.size());
     }
 }
