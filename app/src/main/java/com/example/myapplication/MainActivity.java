@@ -276,6 +276,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public void run(){
                 list = Utils.getAppList(MainActivity.this);
 
+                KEYWORD = null;
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
@@ -329,10 +330,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public static String KEYWORD=null;
+
     @Override
     public boolean onQueryTextSubmit(String query) {
 
 
+        KEYWORD = query;
         Log.d(TAG, "onQueryTextSubmit: "+query);
         list = Utils.getSearchResult(list,query);
         updateDate_sort(currSort);

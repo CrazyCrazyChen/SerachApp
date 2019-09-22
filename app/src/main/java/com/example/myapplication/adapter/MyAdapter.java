@@ -9,11 +9,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.entity.AppInfo;
+import com.example.myapplication.util.Utils;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by uilubo on 2015/9/11.
@@ -72,7 +73,17 @@ public class MyAdapter extends BaseAdapter {
 
         AppInfo app = list.get(position);
         holder.logo.setImageDrawable(app.icon);
-        holder.title.setText(app.appName);
+
+
+        if(MainActivity.KEYWORD == null){
+
+            holder.title.setText(app.appName);
+        }else {
+
+            holder.title.setText(Utils.hightLightText(app.appName, MainActivity.KEYWORD));
+
+        }
+
         holder.version.setText("版本:"+app.versionName);
         holder.size.setText("大小:"+app.size+"M");
 

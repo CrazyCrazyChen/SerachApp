@@ -6,8 +6,13 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 
 import com.example.myapplication.entity.AppInfo;
 
@@ -138,6 +143,20 @@ public class Utils {
         return  result;
     }
 
+
+    public static SpannableStringBuilder hightLightText(String str,String key){
+        int start = str.toLowerCase().indexOf(key.toLowerCase() );
+        int end = start+key.length();
+        SpannableStringBuilder sb = new SpannableStringBuilder(str);
+        sb.setSpan(new ForegroundColorSpan(Color.RED),
+                start,
+                end,
+                Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+
+        return  sb;
+
+
+    }
 
 
 }
